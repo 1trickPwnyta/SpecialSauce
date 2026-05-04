@@ -10,6 +10,8 @@ namespace SpecialSauce.ModSettings
 
             public DLCSetting(string labelKey, string saveKey = null) : base(labelKey, saveKey) { }
 
+            protected override bool DefaultValue => true;
+
             protected override string Label
             {
                 get

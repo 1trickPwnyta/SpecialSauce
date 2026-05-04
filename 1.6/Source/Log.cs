@@ -1,8 +1,8 @@
 namespace SpecialSauce
 {
-    public static class Log
+    internal static class Log
     {
-        private static string TagMessage(object message) => $"[{SpecialSauceMod.PACKAGE_NAME}] {message}";
+        private static string TagMessage(object message) => $"[1trickPwnyta's Special Sauce] {message}";
 
         public static void Debug(object message)
         {

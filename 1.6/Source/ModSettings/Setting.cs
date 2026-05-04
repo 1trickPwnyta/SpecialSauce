@@ -1,10 +1,15 @@
-﻿using System;
+﻿using RimWorld;
+using System;
 using Verse;
 
 namespace SpecialSauce.ModSettings
 {
     public abstract class Setting : IExposable
     {
+        public static T Get<T, S>(string key) where S : SpecialModSettings => SpecialModSettings.Get<S>().Get<T>(key);
+
+        public static void Set<T, S>(string key, T value) where S : SpecialModSettings => SpecialModSettings.Get<S>().Set(key, value);
+        
         public string labelKey;
         public string saveKey;
         public Func<bool> visibilityGetter;
@@ -26,10 +31,11 @@ namespace SpecialSauce.ModSettings
         public abstract void ExposeData();
     }
 
-    public abstract class Setting_Generic<T> : Setting
+    public abstract class Setting<T> : Setting
     {
         public T value;
-        public T defaultValue;
+
+        protected virtual T DefaultValue { get; }
 
         public override object Value
         {
@@ -37,10 +43,13 @@ namespace SpecialSauce.ModSettings
             set { this.value = (T)value; }
         }
 
-        protected Setting_Generic(string labelKey, string saveKey = null) : base(labelKey, saveKey) { }
+        protected Setting(string labelKey, string saveKey = null) : base(labelKey, saveKey)
+        {
+            value = DefaultValue;
+        }
     }
 
-    public class Setting_Checkbox : Setting_Generic<bool>
+    public class Setting_Checkbox : Setting<bool>
     {
         public Setting_Checkbox(string labelKey, string saveKey = null) : base(labelKey, saveKey) { }
 
@@ -55,7 +64,7 @@ namespace SpecialSauce.ModSettings
 
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref value, saveKey, defaultValue);
+            Scribe_Values.Look(ref value, saveKey, DefaultValue);
         }
     }
 }

@@ -7,7 +7,7 @@ using Verse;
 
 namespace SpecialSauce.ModSettings
 {
-    public abstract class ModSettings_Categorized : Verse.ModSettings, IModSettings
+    public abstract class ModSettings_Categorized : SpecialModSettings
     {
         private Vector2 scrollPosition;
         private float y;
@@ -20,7 +20,7 @@ namespace SpecialSauce.ModSettings
 
         protected abstract IEnumerable<SettingsCategory> Categories { get; }
 
-        public void DrawModSettings(Rect rect)
+        public override void DrawModSettings(Rect rect)
         {
             Rect viewRect = new Rect(0f, 0f, rect.width - 20f, y);
             Widgets.BeginScrollView(rect, ref scrollPosition, viewRect);
@@ -63,7 +63,7 @@ namespace SpecialSauce.ModSettings
             }
         }
 
-        public T Get<T>(string labelKey)
+        public override T Get<T>(string labelKey)
         {
             foreach (SettingsCategory category in Categories)
             {
@@ -78,7 +78,7 @@ namespace SpecialSauce.ModSettings
             throw new Exception("Setting not found for " + labelKey);
         }
 
-        public void Set<T>(string labelKey, T value)
+        public override void Set<T>(string labelKey, T value)
         {
             foreach (SettingsCategory category in Categories)
             {
