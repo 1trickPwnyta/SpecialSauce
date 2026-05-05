@@ -11,7 +11,7 @@ namespace SpecialSauce.Harmony
         {
             if (!SpecialMod.Get(modId).Settings.Get<bool>(settingKey))
             {
-                info.category = "DisabledByHarmonyPatchMod";
+                info.category = "DisabledByHarmonyPatch_SettingEnabled";
             }
         }
     }

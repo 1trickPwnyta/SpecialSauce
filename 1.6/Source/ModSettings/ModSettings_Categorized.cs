@@ -33,7 +33,7 @@ namespace SpecialSauce.ModSettings
             {
                 using (new TextBlock(GameFont.Medium))
                 {
-                    listing.Label("$" + category.labelKey.Translate());
+                    listing.Label(category.labelKey.Translate());
                 }
                 listing.GapLine();
                 foreach (Setting setting in category.settings)

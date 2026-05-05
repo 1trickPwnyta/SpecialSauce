@@ -1,5 +1,6 @@
 ﻿using RimWorld;
 using System;
+using UnityEngine;
 using Verse;
 
 namespace SpecialSauce.ModSettings
@@ -11,14 +12,16 @@ namespace SpecialSauce.ModSettings
         public static void Set<T, S>(string key, T value) where S : SpecialModSettings => SpecialModSettings.Get<S>().Set(key, value);
         
         public string labelKey;
+        public string tipKey;
         public string saveKey;
         public Func<bool> visibilityGetter;
         public int indentLevel;
         public bool restartRequired;
 
-        public Setting(string labelKey, string saveKey = null)
+        public Setting(string labelKey, string tipKey = null, string saveKey = null)
         {
             this.labelKey = labelKey;
+            this.tipKey = tipKey;
             this.saveKey = saveKey ?? labelKey;
         }
 
@@ -26,7 +29,27 @@ namespace SpecialSauce.ModSettings
 
         protected virtual string Label => labelKey.Translate();
 
-        public abstract void DoInterface(Listing_Standard listing);
+        protected abstract void DoInterfaceSub(Rect rect);
+
+        public void DoInterface(ref Rect rect)
+        {
+            if (visibilityGetter == null || visibilityGetter())
+            {
+                Rect interfaceRect = rect;
+                interfaceRect.height = 30f;
+                DoInterfaceSub(interfaceRect);
+                rect.yMin += interfaceRect.height;
+            }
+        }
+
+        public void DoInterface(Listing_Standard listing)
+        {
+            if (visibilityGetter == null || visibilityGetter())
+            {
+                Rect interfaceRect = listing.GetRect(30f);
+                DoInterfaceSub(interfaceRect);
+            }
+        }
 
         public abstract void ExposeData();
     }
@@ -36,14 +59,14 @@ namespace SpecialSauce.ModSettings
         public T value;
 
         protected virtual T DefaultValue { get; }
-
+        
         public override object Value
         {
             get { return value; }
             set { this.value = (T)value; }
         }
 
-        protected Setting(string labelKey, string saveKey = null) : base(labelKey, saveKey)
+        protected Setting(string labelKey, string tipKey = null, string saveKey = null) : base(labelKey, tipKey, saveKey)
         {
             value = DefaultValue;
         }
@@ -51,14 +74,20 @@ namespace SpecialSauce.ModSettings
 
     public class Setting_Checkbox : Setting<bool>
     {
-        public Setting_Checkbox(string labelKey, string saveKey = null) : base(labelKey, saveKey) { }
+        private bool paintable;
 
-        public override void DoInterface(Listing_Standard listing)
+        public Setting_Checkbox(string labelKey, string tipKey = null, string saveKey = null, bool paintable = true) : base(labelKey, tipKey, saveKey)
         {
-            if (visibilityGetter == null || visibilityGetter())
+            this.paintable = paintable;
+        }
+
+        protected override void DoInterfaceSub(Rect rect)
+        {
+            string indent = new string(' ', indentLevel * 2);
+            Widgets.CheckboxLabeled(rect, indent + Label, ref value, paintable: paintable);
+            if (tipKey != null)
             {
-                string indent = new string(' ', indentLevel * 2);
-                listing.CheckboxLabeled(indent + Label, ref value);
+                TooltipHandler.TipRegionByKey(rect, tipKey);
             }
         }
 
