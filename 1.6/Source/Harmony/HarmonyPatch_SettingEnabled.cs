@@ -7,9 +7,9 @@ namespace SpecialSauce.Harmony
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Delegate, AllowMultiple = true)]
     public class HarmonyPatch_SettingEnabled : HarmonyAttribute
     {
-        public HarmonyPatch_SettingEnabled(string modId, string settingKey)
+        public HarmonyPatch_SettingEnabled(string modId, object settingKey)
         {
-            if (!SpecialMod.Get(modId).Settings.Get<bool>(settingKey))
+            if (!(SpecialMod.Get(modId) as IModWithSettings).Settings.Get<bool>(settingKey))
             {
                 info.category = "DisabledByHarmonyPatch_SettingEnabled";
             }

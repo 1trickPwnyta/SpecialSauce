@@ -58,16 +58,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Harmony\HarmonyPatch_SettingEnabled.cs" />
+    <Compile Include="ModSettings\CategorizedSettingAttribute.cs" />
+    <Compile Include="ModSettings\ISettings.cs" />
+    <Compile Include="ModSettings\SettingAttribute.cs" />
+    <Compile Include="ModSettings\SettingsUtility.cs" />
     <Compile Include="Mod\ModInitializer.cs" />
     <Compile Include="Mod\SpecialMod.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="ModSettings\SpecialModSettings.cs" />
-    <Compile Include="ModSettings\ModSettings_Categorized.cs" />
-    <Compile Include="ModSettings\ModSettings_DLCPatch.cs" />
+    <Compile Include="ModSettings\SpecialModSettings_Categorized.cs" />
+    <Compile Include="Multipatch\HarmonyPatch_Compatibility.cs" />
+    <Compile Include="Multipatch\ISettings_Compatibility.cs" />
+    <Compile Include="Multipatch\MultipatchSettingAttribute.cs" />
+    <Compile Include="Multipatch\MultipatchUtility.cs" />
+    <Compile Include="Multipatch\PatchOperationAdd_Compatibility.cs" />
+    <Compile Include="Multipatch\PatchOperationReplace_Compatibility.cs" />
+    <Compile Include="Multipatch\PatchOperationSequence_Compatibility.cs" />
+    <Compile Include="Multipatch\Setting_Multipatch.cs" />
+    <Compile Include="Multipatch\SpecialModSettings_Multipatch.cs" />
     <Compile Include="ModSettings\Setting.cs" />
+    <Compile Include="Patching\PatchOperationAddIfSettingEnabled.cs" />
     <Compile Include="Patching\PatchOperationReplaceIfSettingEnabled.cs" />
+    <Compile Include="Patching\PatchOperationUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecialSauceMod.cs" />
+    <Compile Include="Mod_SpecialSauce.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

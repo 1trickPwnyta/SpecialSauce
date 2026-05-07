@@ -2,6 +2,9 @@
 <LanguageData>
 	<SpecialSauce_BugFix>Bug fix</SpecialSauce_BugFix>
 	<SpecialSauce_RestartRequired>(requires restart)</SpecialSauce_RestartRequired>
+	<SpecialSauce_RestartNow>Restart RimWorld</SpecialSauce_RestartNow>
+	<SpecialSauce_NotNow>Not now</SpecialSauce_NotNow>
+	<SpecialSauce_RestartRequiredMessage>You've made changes to this mod's settings that require reloading the game. If you choose not to, you may encounter errors. Do you want to restart RimWorld now?</SpecialSauce_RestartRequiredMessage>
 	<SpecialSauce_CompatibilityMode>Compatibility mode</SpecialSauce_CompatibilityMode>
-	<SpecialSauce_CompatibilityModeDesc>Enabling compatibility mode will improve compatibility with other mods, but it will cause all of this mod's settings to require a restart when changed.</SpecialSauce_CompatibilityModeDesc>
+	<SpecialSauce_CompatibilityModeDesc>Enabling compatibility mode will improve compatibility with other mods, but it will cause all of this mod's settings to require a restart when changed and may not work well with existing save files.</SpecialSauce_CompatibilityModeDesc>
 </LanguageData>

@@ -1,4 +1,5 @@
 ﻿using SpecialSauce.ModSettings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -21,53 +22,54 @@ namespace SpecialSauce.Mod
 
         public static IEnumerable<SpecialMod> All => mods.Values.ToList();
 
-        private SpecialModSettings settings;
-
         protected SpecialMod(ModContentPack content) : base(content)
         {
             mods[PackageId] = this;
-            if (LoadSettingsEarly)
-            {
-                settings = ModSettings as SpecialModSettings;
-            }
         }
 
         protected abstract string PackageName { get; }
 
         protected abstract string PackageId { get; }
 
+        public virtual void Initialize() { }
+    }
+
+    internal interface IModWithSettings
+    {
+        ISettings Settings { get; }
+    }
+
+    public abstract class SpecialMod<T> : SpecialMod, IModWithSettings where T : Verse.ModSettings, ISettings, new()
+    {
+        private ISettings settings;
+
+        protected SpecialMod(ModContentPack content) : base(content)
+        {
+            if (LoadSettingsEarly)
+            {
+                settings = ModSettings;
+            }
+        }
+
         protected virtual bool LoadSettingsEarly => false;
 
-        protected abstract Verse.ModSettings ModSettings { get; }
+        public ISettings Settings => settings;
 
-        internal SpecialModSettings Settings => settings;
+        protected virtual ISettings ModSettings => GetSettings<T>();
+
+        public override string SettingsCategory() => settings != null ? PackageName : "";
+
+        public override void DoSettingsWindowContents(Rect inRect) => settings?.DrawModSettings(inRect);
 
         protected virtual void OnInitialized() { }
 
-        public override string SettingsCategory() => PackageName;
-
-        public override void DoSettingsWindowContents(Rect inRect)
-        {
-            base.DoSettingsWindowContents(inRect);
-            Settings.DrawModSettings(inRect);
-        }
-
-        public void Initialize()
+        public override sealed void Initialize()
         {
             if (!LoadSettingsEarly)
             {
-                settings = ModSettings as SpecialModSettings;
+                settings = ModSettings;
             }
             OnInitialized();
         }
-    }
-
-    public abstract class SpecialMod<T> : SpecialMod where T : SpecialModSettings, new()
-    {
-        protected SpecialMod(ModContentPack content) : base(content)
-        {
-        }
-
-        protected override Verse.ModSettings ModSettings => GetSettings<T>();
     }
 }

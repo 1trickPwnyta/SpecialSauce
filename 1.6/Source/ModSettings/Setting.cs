@@ -5,12 +5,15 @@ using Verse;
 
 namespace SpecialSauce.ModSettings
 {
-    public abstract class Setting : IExposable
+    public abstract class Setting<K> : IExposable where K : Enum
     {
-        public static T Get<T, S>(string key) where S : SpecialModSettings => SpecialModSettings.Get<S>().Get<T>(key);
+        private const float INTERFACE_HEIGHT = 25f;
 
-        public static void Set<T, S>(string key, T value) where S : SpecialModSettings => SpecialModSettings.Get<S>().Set(key, value);
-        
+        public static T Get<T>(object key) => SpecialModSettings<K>.Instance.Get<T>(key);
+
+        public static void Set<T>(object key, T value) => SpecialModSettings<K>.Instance.Set(key, value);
+
+        public K key;
         public string labelKey;
         public string tipKey;
         public string saveKey;
@@ -18,16 +21,13 @@ namespace SpecialSauce.ModSettings
         public int indentLevel;
         public bool restartRequired;
 
-        public Setting(string labelKey, string tipKey = null, string saveKey = null)
-        {
-            this.labelKey = labelKey;
-            this.tipKey = tipKey;
-            this.saveKey = saveKey ?? labelKey;
-        }
-
-        public abstract object Value { get; set; }
+        protected Setting() { }
 
         protected virtual string Label => labelKey.Translate();
+
+        public abstract object GetValue();
+
+        public abstract void SetValue(object value);
 
         protected abstract void DoInterfaceSub(Rect rect);
 
@@ -36,7 +36,7 @@ namespace SpecialSauce.ModSettings
             if (visibilityGetter == null || visibilityGetter())
             {
                 Rect interfaceRect = rect;
-                interfaceRect.height = 30f;
+                interfaceRect.height = INTERFACE_HEIGHT;
                 DoInterfaceSub(interfaceRect);
                 rect.yMin += interfaceRect.height;
             }
@@ -46,7 +46,7 @@ namespace SpecialSauce.ModSettings
         {
             if (visibilityGetter == null || visibilityGetter())
             {
-                Rect interfaceRect = listing.GetRect(30f);
+                Rect interfaceRect = listing.GetRect(INTERFACE_HEIGHT);
                 DoInterfaceSub(interfaceRect);
             }
         }
@@ -54,32 +54,27 @@ namespace SpecialSauce.ModSettings
         public abstract void ExposeData();
     }
 
-    public abstract class Setting<T> : Setting
+    public abstract class Setting<T, K> : Setting<K> where K : Enum
     {
         public T value;
 
         protected virtual T DefaultValue { get; }
-        
-        public override object Value
-        {
-            get { return value; }
-            set { this.value = (T)value; }
-        }
 
-        protected Setting(string labelKey, string tipKey = null, string saveKey = null) : base(labelKey, tipKey, saveKey)
+        protected Setting()
         {
             value = DefaultValue;
         }
+
+        public override object GetValue() => value;
+
+        public override void SetValue(object value) => this.value = (T)value;
     }
 
-    public class Setting_Checkbox : Setting<bool>
+    public class Setting_Checkbox<K> : Setting<bool, K> where K : Enum
     {
-        private bool paintable;
+        public bool paintable = true;
 
-        public Setting_Checkbox(string labelKey, string tipKey = null, string saveKey = null, bool paintable = true) : base(labelKey, tipKey, saveKey)
-        {
-            this.paintable = paintable;
-        }
+        public Setting_Checkbox() { }
 
         protected override void DoInterfaceSub(Rect rect)
         {

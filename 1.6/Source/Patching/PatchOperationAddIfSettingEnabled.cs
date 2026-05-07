@@ -3,7 +3,7 @@ using Verse;
 
 namespace SpecialSauce.Patching
 {
-    public class PatchOperationReplaceIfSettingEnabled : PatchOperationReplace
+    public class PatchOperationAddIfSettingEnabled : PatchOperationAdd
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0044:Add readonly modifier", Justification = "PatchOperation")]
         private XmlContainer modId;
