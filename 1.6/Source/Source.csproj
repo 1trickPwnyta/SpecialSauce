@@ -65,10 +65,13 @@
     <Compile Include="Harmony\HarmonyUtility.cs" />
     <Compile Include="ModSettings\CategorizedSettingAttribute.cs" />
     <Compile Include="ModSettings\HarmonyPatches.cs" />
+    <Compile Include="ModSettings\ISettingEnabler.cs" />
     <Compile Include="ModSettings\ISettings.cs" />
     <Compile Include="ModSettings\SettingAttribute.cs" />
     <Compile Include="ModSettings\SettingsUtility.cs" />
     <Compile Include="Multipatch\XmlAttributeHandler_Compatibility_RequiresSettingEnabled.cs" />
+    <Compile Include="Patching\PatchOperationRemoveIfSettingEnabled.cs" />
+    <Compile Include="Patching\PatchOperationSequenceIfSettingEnabled.cs" />
     <Compile Include="UI\UIUtility.cs" />
     <Compile Include="Xml\HarmonyPatches.cs" />
     <Compile Include="Xml\IXmlAttributeHandler.cs" />

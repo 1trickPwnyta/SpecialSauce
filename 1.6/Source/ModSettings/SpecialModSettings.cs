@@ -1,6 +1,4 @@
-﻿using HarmonyLib;
-using RimWorld;
-using SpecialSauce.Mod;
+﻿using RimWorld;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -6,15 +6,10 @@ namespace SpecialSauce.ModSettings
     [AttributeUsage(AttributeTargets.Field)]
     public class SettingAttribute : Attribute
     {
-        public interface IEnabler
-        {
-            bool Enabled();
-        }
-
         public readonly string labelKey;
         public readonly string tipKey;
         public readonly string saveKey;
-        public readonly IEnabler enabler;
+        public readonly ISettingEnabler enabler;
         public readonly int indentLevel;
         public readonly bool restartRequired;
 
@@ -25,7 +20,7 @@ namespace SpecialSauce.ModSettings
             this.saveKey = saveKey;
             if (enablerType != null)
             {
-                enabler = Activator.CreateInstance(enablerType) as IEnabler;
+                enabler = Activator.CreateInstance(enablerType) as ISettingEnabler;
             }
             this.indentLevel = indentLevel;
             this.restartRequired = restartRequired;

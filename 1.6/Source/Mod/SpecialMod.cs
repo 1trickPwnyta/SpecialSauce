@@ -41,7 +41,7 @@ namespace SpecialSauce.Mod
         public virtual void Initialize() { }
     }
 
-    internal interface IModWithSettings
+    public interface IModWithSettings
     {
         ISettings Settings { get; }
     }

@@ -1,8 +1,7 @@
-﻿using SpecialSauce.Multipatch;
-using System.Xml;
+﻿using System.Xml;
 using Verse;
 
-namespace SpecialSauce.Patching
+namespace SpecialSauce.Multipatch
 {
     public class PatchOperationReplace_Compatibility : PatchOperationReplace
     {

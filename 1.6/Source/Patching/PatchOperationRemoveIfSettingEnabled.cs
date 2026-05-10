@@ -1,9 +1,9 @@
 ﻿using System.Xml;
 using Verse;
 
-namespace SpecialSauce.Multipatch
+namespace SpecialSauce.Patching
 {
-    public class PatchOperationAdd_Compatibility : PatchOperationAdd
+    public class PatchOperationRemoveIfSettingEnabled : PatchOperationRemove
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0044:Add readonly modifier", Justification = "PatchOperation")]
         private XmlContainer modId;
@@ -12,7 +12,7 @@ namespace SpecialSauce.Multipatch
 
         protected override bool ApplyWorker(XmlDocument xml)
         {
-            return MultipatchUtility.ApplyPatchOperation_Compatibility(modId, settingKey, () => base.ApplyWorker(xml));
+            return PatchOperationUtility.ApplyWorkerIfSettingEnabled(modId, settingKey, () => base.ApplyWorker(xml));
         }
     }
 }

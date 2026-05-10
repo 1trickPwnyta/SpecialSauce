@@ -62,6 +62,8 @@ namespace SpecialSauce.Multipatch
             base.DrawModSettings(rect);
         }
 
+        public bool ShouldEnableCodeForSetting(K key) => !CompatibilityModeActive || Get<bool>(key);
+
         protected override bool SettingRequiresRestart(Setting_Multipatch<K> setting) => CompatibilityModeActive || base.SettingRequiresRestart(setting);
 
         public override void ExposeData()
