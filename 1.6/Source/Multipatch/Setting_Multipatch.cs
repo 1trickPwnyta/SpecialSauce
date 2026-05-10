@@ -6,7 +6,7 @@ namespace SpecialSauce.Multipatch
 {
     public class Setting_Multipatch<K> : Setting_Checkbox<K> where K : Enum
     {
-        public ISettings_Compatibility settings;
+        public bool hideRestartRequired;
         public bool bugFix;
 
         protected override bool DefaultValue => true;
@@ -15,7 +15,7 @@ namespace SpecialSauce.Multipatch
         {
             get
             {
-                return (bugFix ? "SpecialSauce_BugFix".Translate() + ": " : TaggedString.Empty) + labelKey.Translate() + (restartRequired && !settings.CompatibilityModeActive ? " " + "SpecialSauce_RestartRequired".Translate() : TaggedString.Empty);
+                return (bugFix ? "SpecialSauce_BugFix".Translate() + ": " : TaggedString.Empty) + labelKey.Translate() + (restartRequired && !hideRestartRequired ? " " + "SpecialSauce_RestartRequired".Translate() : TaggedString.Empty);
             }
         }
     }

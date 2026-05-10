@@ -1,5 +1,6 @@
 ﻿using RimWorld;
 using System;
+using System.Reflection.Emit;
 using UnityEngine;
 using Verse;
 
@@ -31,7 +32,7 @@ namespace SpecialSauce.ModSettings
 
         protected abstract void DoInterfaceSub(Rect rect);
 
-        public void DoInterface(ref Rect rect)
+        public float DoInterface(ref Rect rect)
         {
             if (visibilityGetter == null || visibilityGetter())
             {
@@ -39,7 +40,9 @@ namespace SpecialSauce.ModSettings
                 interfaceRect.height = INTERFACE_HEIGHT;
                 DoInterfaceSub(interfaceRect);
                 rect.yMin += interfaceRect.height;
+                return interfaceRect.height;
             }
+            return 0f;
         }
 
         public void DoInterface(Listing_Standard listing)
@@ -73,16 +76,23 @@ namespace SpecialSauce.ModSettings
     public class Setting_Checkbox<K> : Setting<bool, K> where K : Enum
     {
         public bool paintable = true;
+        public bool placeCheckboxNearText = false;
 
         public Setting_Checkbox() { }
 
         protected override void DoInterfaceSub(Rect rect)
         {
             string indent = new string(' ', indentLevel * 2);
-            Widgets.CheckboxLabeled(rect, indent + Label, ref value, paintable: paintable);
+            string label = indent + Label;
+            Widgets.CheckboxLabeled(rect, label, ref value, paintable: paintable, placeCheckboxNearText: placeCheckboxNearText);
+            Rect tipRect = rect;
+            if (placeCheckboxNearText)
+            {
+                tipRect.width = Mathf.Min(rect.width, Text.CalcSize(label).x + 24f + 10f);
+            }
             if (tipKey != null)
             {
-                TooltipHandler.TipRegionByKey(rect, tipKey);
+                TooltipHandler.TipRegionByKey(tipRect, tipKey);
             }
         }
 

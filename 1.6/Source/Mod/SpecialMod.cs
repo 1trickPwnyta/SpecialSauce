@@ -1,4 +1,5 @@
 ﻿using SpecialSauce.ModSettings;
+using SpecialSauce.Xml;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,11 +26,17 @@ namespace SpecialSauce.Mod
         protected SpecialMod(ModContentPack content) : base(content)
         {
             mods[PackageId] = this;
+            foreach (IXmlAttributeHandler handler in XmlAttributeHandlers)
+            {
+                XmlUtility.RegisterXmlAttributeHandler(handler);
+            }
         }
 
         protected abstract string PackageName { get; }
 
         protected abstract string PackageId { get; }
+
+        protected virtual IEnumerable<IXmlAttributeHandler> XmlAttributeHandlers => Enumerable.Empty<IXmlAttributeHandler>();
 
         public virtual void Initialize() { }
     }
@@ -39,9 +46,9 @@ namespace SpecialSauce.Mod
         ISettings Settings { get; }
     }
 
-    public abstract class SpecialMod<T> : SpecialMod, IModWithSettings where T : Verse.ModSettings, ISettings, new()
+    public abstract class SpecialMod<T, K, A, S> : SpecialMod, IModWithSettings where T : SpecialModSettings<K, A, S>, ISettings, new() where K : Enum where A : SettingAttribute where S : Setting<K>, new()
     {
-        private ISettings settings;
+        private T settings;
 
         protected SpecialMod(ModContentPack content) : base(content)
         {
@@ -55,7 +62,7 @@ namespace SpecialSauce.Mod
 
         public ISettings Settings => settings;
 
-        protected virtual ISettings ModSettings => GetSettings<T>();
+        protected virtual T ModSettings => GetSettings<T>();
 
         public override string SettingsCategory() => settings != null ? PackageName : "";
 

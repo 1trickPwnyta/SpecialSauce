@@ -12,9 +12,9 @@ namespace SpecialSauce.Multipatch
             this.bugFix = bugFix;
         }
 
-        public override S MakeSetting<K, S>(string modId, K key)
+        public override S MakeSetting<K, S>(string prefix, K key)
         {
-            Setting_Multipatch<K> setting = base.MakeSetting<K, S>(modId, key) as Setting_Multipatch<K>;
+            Setting_Multipatch<K> setting = base.MakeSetting<K, S>(prefix, key) as Setting_Multipatch<K>;
             setting.bugFix = bugFix;
             return setting as S;
         }

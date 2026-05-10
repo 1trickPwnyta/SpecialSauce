@@ -8,7 +8,7 @@ using Verse;
 
 namespace SpecialSauce.ModSettings
 {
-    public abstract class SpecialModSettings_Categorized<K, S> : SpecialModSettings<K, CategorizedSettingAttribute, S> where K : Enum where S : Setting<K>, new()
+    public abstract class SpecialModSettings_Categorized<K, A, S> : SpecialModSettings<K, A, S> where K : Enum where A : CategorizedSettingAttribute where S : Setting<K>, new()
     {
         private Vector2 scrollPosition;
         private float y;
@@ -27,8 +27,6 @@ namespace SpecialSauce.ModSettings
                 categorizedSettings[attr.categoryKey][pair.Key] = pair.Value;
             }
         }
-
-        protected override IEnumerable<S> AllSettings => categorizedSettings.Keys.SelectMany(k => categorizedSettings[k].Values);
 
         public override void DrawModSettings(Rect rect)
         {
@@ -59,39 +57,6 @@ namespace SpecialSauce.ModSettings
             listing.End();
 
             Widgets.EndScrollView();
-        }
-
-        public override void ExposeData()
-        {
-            foreach (Setting<K> setting in categorizedSettings.Values.SelectMany(c => c.Values))
-            {
-                setting.ExposeData();
-            }
-        }
-
-        public override V Get<V>(object key)
-        {
-            foreach (Setting<K> setting in categorizedSettings.Values.SelectMany(c => c.Values))
-            {
-                if (setting.key.Equals(key))
-                {
-                    return (V)setting.GetValue();
-                }
-            }
-            throw new Exception("Setting not found for " + key);
-        }
-
-        public override void Set<V>(object key, V value)
-        {
-            foreach (Setting<K> setting in categorizedSettings.Values.SelectMany(c => c.Values))
-            {
-                if (setting.key.Equals(key))
-                {
-                    setting.SetValue(value);
-                    return;
-                }
-            }
-            throw new Exception("Setting not found for " + key);
         }
     }
 }

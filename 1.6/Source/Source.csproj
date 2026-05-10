@@ -51,6 +51,10 @@
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
       <Private>False</Private>
@@ -58,10 +62,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Harmony\HarmonyPatch_SettingEnabled.cs" />
+    <Compile Include="Harmony\HarmonyUtility.cs" />
     <Compile Include="ModSettings\CategorizedSettingAttribute.cs" />
+    <Compile Include="ModSettings\HarmonyPatches.cs" />
     <Compile Include="ModSettings\ISettings.cs" />
     <Compile Include="ModSettings\SettingAttribute.cs" />
     <Compile Include="ModSettings\SettingsUtility.cs" />
+    <Compile Include="Multipatch\XmlAttributeHandler_Compatibility_RequiresSettingEnabled.cs" />
+    <Compile Include="UI\UIUtility.cs" />
+    <Compile Include="Xml\HarmonyPatches.cs" />
+    <Compile Include="Xml\IXmlAttributeHandler.cs" />
+    <Compile Include="Xml\XmlUtility.cs" />
     <Compile Include="Mod\ModInitializer.cs" />
     <Compile Include="Mod\SpecialMod.cs" />
     <Compile Include="Log.cs" />
@@ -77,6 +88,7 @@
     <Compile Include="Multipatch\Setting_Multipatch.cs" />
     <Compile Include="Multipatch\SpecialModSettings_Multipatch.cs" />
     <Compile Include="ModSettings\Setting.cs" />
+    <Compile Include="Multipatch\SpecialMod_Multipatch.cs" />
     <Compile Include="Patching\PatchOperationAddIfSettingEnabled.cs" />
     <Compile Include="Patching\PatchOperationReplaceIfSettingEnabled.cs" />
     <Compile Include="Patching\PatchOperationUtility.cs" />

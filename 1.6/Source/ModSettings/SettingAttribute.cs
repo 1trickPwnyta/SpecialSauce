@@ -1,4 +1,5 @@
 ﻿using System;
+using Verse;
 
 namespace SpecialSauce.ModSettings
 {
@@ -30,11 +31,11 @@ namespace SpecialSauce.ModSettings
             this.restartRequired = restartRequired;
         }
 
-        public virtual S MakeSetting<K, S>(string modId, K key) where K : Enum where S : Setting<K>, new()
+        public virtual S MakeSetting<K, S>(string prefix, K key) where K : Enum where S : Setting<K>, new()
         {
             S setting = new S();
             setting.key = key;
-            setting.labelKey = labelKey ?? modId + "_" + key.ToString();
+            setting.labelKey = labelKey ?? prefix + (!prefix.NullOrEmpty() ? "_" : "") + key.ToString();
             setting.tipKey = tipKey;
             setting.saveKey = saveKey ?? setting.labelKey;
             if (enabler != null)
