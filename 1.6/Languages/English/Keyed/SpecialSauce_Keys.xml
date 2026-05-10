@@ -9,4 +9,5 @@
 	<SpecialSauce_CompatibilityModeDesc>Enabling compatibility mode will improve compatibility with other mods, but it will cause all of this mod's settings to require a restart when changed and may not work well with existing save files.</SpecialSauce_CompatibilityModeDesc>
 	<SpecialSauce_EnableAll>Enable all</SpecialSauce_EnableAll>
 	<SpecialSauce_DisableAll>Disable all</SpecialSauce_DisableAll>
+	<SpecialSauce_InputIsInvalid>Please enter valid input.</SpecialSauce_InputIsInvalid>
 </LanguageData>

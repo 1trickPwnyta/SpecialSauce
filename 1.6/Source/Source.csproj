@@ -72,6 +72,7 @@
     <Compile Include="Multipatch\XmlAttributeHandler_Compatibility_RequiresSettingEnabled.cs" />
     <Compile Include="Patching\PatchOperationRemoveIfSettingEnabled.cs" />
     <Compile Include="Patching\PatchOperationSequenceIfSettingEnabled.cs" />
+    <Compile Include="UI\Dialog_Input.cs" />
     <Compile Include="UI\UIUtility.cs" />
     <Compile Include="Xml\HarmonyPatches.cs" />
     <Compile Include="Xml\IXmlAttributeHandler.cs" />
